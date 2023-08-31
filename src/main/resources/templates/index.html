@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="https://www.thymeleaf.org">
+<head>
+    <title>Inicio</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="icon" href="https://cdn.iconscout.com/icon/free/png-256/cryptography-1519847-1288171.png" type="image/gif" sizes="16x16">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.1.1.slim.min.js" integrity="sha384-A7FZj7v+d/sdmMqp/nOQwliLvUsJfDHW+k9Omg/a/EheAdgtzNs3hpfag6Ed950n" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/tether/1.4.0/js/tether.min.js" integrity="sha384-DztdAPBWPRXSA/3eYEEUWrWCy7G5KFbe8fFjk5JAIxUYHKkDx6Qin1DkWx51bBrb" crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/js/bootstrap.min.js" integrity="sha384-vBWWzlZJ8ea9aCX4pEW3rVHjgjt7zpkNpZk+02D9phzyeVkE+jo0ieGizqPLForn" crossorigin="anonymous"></script>
+</head>
+
+<body>
+<div class="container">
+    <div class="jumbotron text-center" style="margin-bottom:10; background-color: rgba(255,255,255);">
+        <h2>Proyecto ETS Cryptography</h2>
+    </div>
+    <div>
+        <div class="card-deck">
+            <div class="card">
+                <h5 class="card-title" align="center"> </h5>
+                <div style="margin-left: auto; margin-right: auto; display: block;">
+                    </div>
+                <div class="card-body" align="center">
+                    <p class="card-title" align="center">Confidencialidad, Autenticación, Integridad y No Repudio</p>
+                    <a href="#" th:href="@{/encrypt_sign}" target="_blank" role="button" class="btn btn-secondary btn-block">
+                        Cifrar - Firmar
+                    </a>
+                    <a href="#" th:href="@{/decrypt_verify}" target="_blank" role="button" class="btn btn-dark btn-block">
+                        Descrifrar - Verificar
+                    </a>
+                </div>
+            </div>
+        </div>
+
+
+
+    </div><br>
+</div>
+
+
+<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" ></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+</body>
+</html>
+
+
