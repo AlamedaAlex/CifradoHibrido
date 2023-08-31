@@ -12,21 +12,24 @@ public class Keys {
     private PrivateKey llavePrivada;
     private PublicKey llavePublica;
 
+    // Constructor que inicializa el generador de llaves asimétricas con el tamaño especificado
     public Keys(int keySize) throws NoSuchAlgorithmException {
         this.generadorLlaves = KeyPairGenerator.getInstance(algoritmo);
 
-        SecureRandom random=SecureRandom.getInstance("SHA1PRNG");
-        random.setSeed(4);   //something device specific will be used to set this
+        SecureRandom random = SecureRandom.getInstance("SHA1PRNG");
+        random.setSeed(4);   // algo específico del dispositivo se utilizará para establecer esto
 
         this.generadorLlaves.initialize(keySize, random);
     }
 
+    // Genera un par de llaves público-privado
     public void createKeys() {
         this.llavesAsimetricas = this.generadorLlaves.generateKeyPair();
         this.llavePrivada = llavesAsimetricas.getPrivate();
         this.llavePublica = llavesAsimetricas.getPublic();
     }
 
+    // Crea un archivo para almacenar la llave
     public static void crearArchivoLLave(String path, byte[] llave) throws IOException {
         File f = new File(path);
         f.getParentFile().mkdirs();
@@ -37,7 +40,7 @@ public class Keys {
         fos.close();
     }
 
-
+    // Métodos getter y setter para la llave privada
     public PrivateKey getLlavePrivada() {
         return llavePrivada;
     }
@@ -46,6 +49,7 @@ public class Keys {
         this.llavePrivada = llavePrivada;
     }
 
+    // Métodos getter y setter para la llave pública
     public PublicKey getLlavePublica() {
         return llavePublica;
     }
@@ -54,3 +58,4 @@ public class Keys {
         this.llavePublica = llavePublica;
     }
 }
+

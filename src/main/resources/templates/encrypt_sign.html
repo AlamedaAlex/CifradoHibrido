@@ -9,12 +9,17 @@
     <script src="https://code.jquery.com/jquery-3.1.1.slim.min.js" integrity="sha384-A7FZj7v+d/sdmMqp/nOQwliLvUsJfDHW+k9Omg/a/EheAdgtzNs3hpfag6Ed950n" crossorigin="anonymous"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/tether/1.4.0/js/tether.min.js" integrity="sha384-DztdAPBWPRXSA/3eYEEUWrWCy7G5KFbe8fFjk5JAIxUYHKkDx6Qin1DkWx51bBrb" crossorigin="anonymous"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/js/bootstrap.min.js" integrity="sha384-vBWWzlZJ8ea9aCX4pEW3rVHjgjt7zpkNpZk+02D9phzyeVkE+jo0ieGizqPLForn" crossorigin="anonymous"></script>
+    <style>
+        body {
+          background-color: lightblue;
+        }
+      </style>
 </head>
 
 <body>
-<div class="jumbotron text-center" style="margin-bottom:10; background-color: rgba(255, 0, 0, 0.3);">
-   
-    <h2>Firmar y cifrar</h2>
+    <div class="jumbotron text-center" style="margin-bottom:10; background-color: rgba(255,255,255);">
+        <h2>Firmar y cifrar</h2>
+    <p>Alexis Alameda Poblano</p>
 </div>
 <form action="#" th:action="@{/es_upload}" th:object="${model}" method="post" class="container" enctype="multipart/form-data">
     <div class="form-group row">
@@ -25,7 +30,7 @@
     </div>
 
     <div class="form-group row">
-        <label for="clave_simetrica" class="col-sm-3 col-form-label">Clave sim&eacute;trica: </label>
+        <label for="clave_simetrica" class="col-sm-3 col-form-label">Clave simetrica: </label>
         <div class="col-sm-9">
             <input type="file" class="form-control-file" id="clave_simetrica" name="clave_simetrica" accept="text/plain" th:object="${clave_simetrica}">
         </div>
@@ -40,7 +45,7 @@
     </div>
 
     <div class="form-group row">
-        <label for="clave_publica" class="col-sm-3 col-form-label">Clave p&uacute;blica externa: </label>
+        <label for="clave_publica" class="col-sm-3 col-form-label">Clave publica externa: </label>
         <div class="col-sm-9">
             <input type="file" class="form-control-file" id="clave_publica" name="clave_publica" accept="text/plain" th:object="${clave_publica}">
         </div>
@@ -49,7 +54,7 @@
 
     <div class="form-group row">
         <div class="col-sm-12">
-            <input type="submit" class="btn btn-outline-danger btn-block" value="Firmar y cifrar"/>
+            <input type="submit" class="btn btn-secondary btn-block" value="Firmar y cifrar"/>
         </div>
     </div>
 

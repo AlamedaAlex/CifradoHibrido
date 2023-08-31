@@ -7,7 +7,6 @@ import java.security.PublicKey;
 
 import com.example.demospringfileupload.crypto.AES;
 import com.example.demospringfileupload.crypto.RSA;
-import com.example.demospringfileupload.model.DataModel;
 import com.example.demospringfileupload.model.DataComplete;
 import com.example.demospringfileupload.service.DigitalSignature;
 import com.google.common.hash.Hashing;
@@ -19,31 +18,35 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 @Controller
 public class CryptController {
-	@GetMapping("/encrypt")
-	public String encrypt() {
-		return "encrypt";
-	}
+    // Mapeo para mostrar la vista de cifrado
+    @GetMapping("/encrypt")
+    public String encrypt() {
+        return "encrypt";
+    }
 
-	@GetMapping("/decrypt")
-	public String decrypt() {
-		return "decrypt";
-	}
+    // Mapeo para mostrar la vista de descifrado
+    @GetMapping("/decrypt")
+    public String decrypt() {
+        return "decrypt";
+    }
 
-	@GetMapping("/encrypt_sign")
-	public String encryptSign() {
-		return "encrypt_sign";
-	}
+    // Mapeo para mostrar la vista de cifrado y firma
+    @GetMapping("/encrypt_sign")
+    public String encryptSign() {
+        return "encrypt_sign";
+    }
 
-	@GetMapping("/decrypt_verify")
-	public String decryptVerify() {
-		return "decrypt_verify";
-	}
+    // Mapeo para mostrar la vista de descifrado y verificación
+    @GetMapping("/decrypt_verify")
+    public String decryptVerify() {
+        return "decrypt_verify";
+    }
 
-	
+	// Manejo de la carga de archivos, cifrado y firma
 	@PostMapping("/es_upload")
 	public String uploadFileEncryptSign(@ModelAttribute("model") DataComplete model, RedirectAttributes attributes) throws Exception
 	{
-		// Verifying files
+		// Verificación de archivos y entradas
 		if(model.getTexto() == null || model.getTexto().isEmpty() ){
 			attributes.addFlashAttribute("message", "Por favor seleccione un archivo de texto plano válido.");
 			return "redirect:status";
@@ -58,7 +61,7 @@ public class CryptController {
 			return "redirect:status";
 		}
 
-		// Making path
+		// Creación de la ruta de almacenamiento
 		StringBuilder builder = new StringBuilder();
 		builder.append("..");
 		builder.append(File.separator);
@@ -66,32 +69,31 @@ public class CryptController {
 		builder.append(File.separator);
 		builder.append(model.getTexto().getOriginalFilename().replace(".txt","_OkCifrado.txt"));
 
-		// Digital signature
+        // Firma digital
 		String digital_signature = DigitalSignature.sign(model.getTexto(), model.getClave_privada());
 
-		// Cipher text with AES CBC MODE 128
+        // Cifrado del texto con AES en modo CBC de 128 bits
 		final String symmetric_key = new String(model.getClave_simetrica().getBytes(), StandardCharsets.UTF_8);
 		String original_string = new String(model.getTexto().getBytes(), StandardCharsets.UTF_8);
 		String encrypted_text = AES.encrypt(original_string, symmetric_key);
 
-		// Cipher symmetric key with RSA
+        // Cifrado de la clave simétrica con RSA
 		String sym_key = new String(model.getClave_simetrica().getBytes(), StandardCharsets.UTF_8);
 
-		// Instantiate class
+        // Instanciar la clase RSA
 		RSA cifrador = new RSA();
-			// Set private key
 		PublicKey public_key = cifrador.getPublic2(model.getClave_publica().getBytes());
-			// encrypt
 		String encrypted_symmetric_key = cifrador.encryptText(sym_key, public_key);
 
-
+        // Mostrar información sobre los datos cifrados
 		System.out.println(digital_signature.length() + " : " + digital_signature);
 		System.out.println(encrypted_text.length() + " : " + encrypted_text);
 		System.out.println(encrypted_symmetric_key.length() + " : " + encrypted_symmetric_key);
-
+        
+		// Combinar los datos cifrados y firmados en un solo archivo
 		String file_to_send = digital_signature + encrypted_symmetric_key + encrypted_text;
 
-		// writing the file
+        // Escribir el archivo resultante
 		File archivo = new File(builder.toString());
 		BufferedWriter bw;
 		bw = new BufferedWriter(new FileWriter(archivo));
@@ -99,22 +101,21 @@ public class CryptController {
 		bw.close();
 
 
-		// Enviar status de operacion
+        // Enviar el estado de la operación y el contenido del archivo
 		attributes.addFlashAttribute("message", "Archivo firmado y cifrado correctamente ["+builder.toString()+"]");
 		attributes.addFlashAttribute("content", file_to_send);
 
 		return "redirect:/status";
 	}
 
-
+    // Manejo de la carga de archivos, descifrado y verificación
 	@PostMapping("/dv_upload")
 	public String uploadFileD(@ModelAttribute("model") DataComplete model, RedirectAttributes attributes) throws Exception
 	{
-		Boolean is_ok;
 		StringBuilder message = new StringBuilder();
 
 
-		// Verifying files
+        // Verificar la presencia y validez de los archivos y entradas
 		if(model.getTexto() == null || model.getTexto().isEmpty() ){
 			attributes.addFlashAttribute("message", "Por favor seleccione un archivo de texto plano válido.");
 			return "redirect:status";
@@ -126,7 +127,7 @@ public class CryptController {
 			return "redirect:status";
 		}
 
-		// Making path
+        // Crear la ruta de almacenamiento para el archivo descifrado y verificado
 		StringBuilder builder = new StringBuilder();
 		builder.append("..");
 		builder.append(File.separator);
@@ -134,42 +135,33 @@ public class CryptController {
 		builder.append(File.separator);
 		builder.append(model.getTexto().getOriginalFilename().replace(".txt","_OkDescifrado.txt"));
 
-		// separate digital_signature 172, encrypted_symmetric_key 172, encrypted_text
+        // Extraer partes del documento completo
 		String complete_document = new String(model.getTexto().getBytes(), StandardCharsets.UTF_8);
 		String cipher_digital_signature = complete_document.substring(0,172);
 		String cipher_symmetric_key = complete_document.substring(172, 344);
 		String cipher_text = complete_document.substring(344);
 
-
+        // Extraer partes del documento completo
 		RSA cifrador = new RSA();
-		// Set private key
 		PrivateKey private_key = cifrador.getPrivate2(model.getClave_privada().getBytes());
-		// encrypt
-
-
+        // Descifrar la clave simétrica y el texto cifrado
 		String decipher_symmetric_key = cifrador.decryptText(cipher_symmetric_key, private_key);
-
 		String decipher_text = null;
-
+        // Calcular el hash para verificar la integridad
 		try{
 			decipher_text = AES.decrypt(cipher_text, decipher_symmetric_key);
 		} catch (Exception e){
 			message.append("Fallo servicio de integridad de datos");
 		}
-
 		String sha256hex = null;
-
 		try{
 			sha256hex = Hashing.sha256().hashString(decipher_text, StandardCharsets.UTF_8).toString();
 		}catch (Exception e){
 			message.append("Fallo servicio de integridad de datos");
 		}
 
-
-		// Set private key
-
+        // Descifrar la firma digital
 		PublicKey public_key = cifrador.getPublic2(model.getClave_publica().getBytes());
-
 		String decipher_digital_signature = null;
 		try{
 			decipher_digital_signature = decipher_digital_signature = cifrador.decryptText(cipher_digital_signature, public_key);
@@ -177,29 +169,29 @@ public class CryptController {
 			message.append("Fallo servicio de autenticación");
 		}
 
-		// Verification
+        // Verificación de integridad y autenticidad
 		if(decipher_digital_signature != null && decipher_text != null && sha256hex != null) {
 
 
 			if (decipher_digital_signature.equals(sha256hex)) {
-				// writing the file
 				File archivo = new File(builder.toString());
 				BufferedWriter bw;
 				bw = new BufferedWriter(new FileWriter(archivo));
 				bw.write(decipher_text);
 				bw.close();
 
-				message.append("Se descifro y verifo correctamente, archivo almacenado en: " + builder.toString());
+				message.append("Se descifro y verifo correctamente, archivo almacenado en: ["+builder.toString()+"]");
 			}
 		}
 
 
-		// Send operation status
+        // Enviar el estado de la operación y el contenido del archivo
 		attributes.addFlashAttribute("message", message.toString());
-		attributes.addFlashAttribute("content", "");
+		attributes.addFlashAttribute("content", decipher_text);
 		return "redirect:/status";
 	}
 
+    // Mapeo para mostrar la vista de estado
 	@GetMapping("/status")
 	public String status() {
 		return "status";

@@ -1,12 +1,35 @@
 <html xmlns:th="http://www.thymeleaf.org">
+
 <head>
 	<meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="icon" href="https://cdn.iconscout.com/icon/free/png-256/cryptography-1519847-1288171.png" type="image/gif" sizes="16x16">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.1.1.slim.min.js" integrity="sha384-A7FZj7v+d/sdmMqp/nOQwliLvUsJfDHW+k9Omg/a/EheAdgtzNs3hpfag6Ed950n" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/tether/1.4.0/js/tether.min.js" integrity="sha384-DztdAPBWPRXSA/3eYEEUWrWCy7G5KFbe8fFjk5JAIxUYHKkDx6Qin1DkWx51bBrb" crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/js/bootstrap.min.js" integrity="sha384-vBWWzlZJ8ea9aCX4pEW3rVHjgjt7zpkNpZk+02D9phzyeVkE+jo0ieGizqPLForn" crossorigin="anonymous"></script>
+    
+	<style>
+		body {
+			background-color: lightblue;
+		}
+	</style>
 </head>
+
 <body>
-	<h1>Resultado de la carga</h1>
-	<div th:if="${message}" style="word-wrap: break-word;">
-		<h2 th:text="${message}"></h2>
-		<p th:text="${content}"></p>
+	<div>
+		<div class="card-deck">
+			<div class="card">
+				<h1 align="center">Resultado de la carga</h1>
+				<div style="margin-left: auto; margin-right: auto; display: block;">
+					<h2 th:text="${message}"></h2>
+					<p th:text="${content}"></p>
+				</div>
+			</div>
+		</div>
+	</div>
 	</div>
 </body>
+
 </html>

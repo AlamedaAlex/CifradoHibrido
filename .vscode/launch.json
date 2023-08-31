@@ -1,0 +1,21 @@
+{
+    "configurations": [
+        {
+            "type": "java",
+            "name": "GenerarLLaves",
+            "request": "launch",
+            "mainClass": "com.example.demospringfileupload.GenerarLLaves",
+            "projectName": "demo-spring-fileupload"
+        },
+        {
+            "type": "java",
+            "name": "Spring Boot-DemoSpringFileuploadApplication<demo-spring-fileupload>",
+            "request": "launch",
+            "cwd": "${workspaceFolder}",
+            "mainClass": "com.example.demospringfileupload.DemoSpringFileuploadApplication",
+            "projectName": "demo-spring-fileupload",
+            "args": "",
+            "envFile": "${workspaceFolder}/.env"
+        }
+    ]
+}

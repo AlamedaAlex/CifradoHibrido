@@ -14,47 +14,47 @@ import java.security.interfaces.RSAPublicKey;
 
 import static com.example.demospringfileupload.crypto.Keys.crearArchivoLLave;
 
-public class GenerateKeys {
+public class GenerarLLaves {
     public static void main(String[] args) throws NoSuchAlgorithmException, IOException, NoSuchProviderException {
+        // Indicadores para generar claves simétricas y asimétricas
         Boolean generate_symmetric_key = Boolean.TRUE;
         Boolean generate_asymmetric_key = Boolean.TRUE;
 
+        // Directorio para almacenar las claves generadas
         StringBuilder path_directory = new StringBuilder();
         path_directory.append("..");
         path_directory.append(File.separator);
         path_directory.append("Keys");
         path_directory.append(File.separator);
 
-
-        if(generate_symmetric_key){ // Symmetric key AES
+        // Generación de clave simétrica AES
+        if(generate_symmetric_key){
             KeyGenerator keyGen = KeyGenerator.getInstance("AES");
-            keyGen.init(128); // for example
+            keyGen.init(128); // por ejemplo
             SecretKey secretKey = keyGen.generateKey();
 
-            crearArchivoLLave("../Keys/symmetricKey.txt", secretKey.getEncoded());
-            System.out.println("LLave simétrica generada correctamente");
-
+            // Crear archivo de clave simétrica
+            crearArchivoLLave("../LLave/LLaveSimetrica.txt", secretKey.getEncoded());
+            System.out.println("Clave simétrica generada");
         }
 
-        if(generate_asymmetric_key){ // Generate keys
-            KeyPairGenerator generator = KeyPairGenerator.getInstance ("RSA");
+        // Generación de claves asimétricas RSA
+        if(generate_asymmetric_key){
+            KeyPairGenerator generator = KeyPairGenerator.getInstance("RSA");
             SecureRandom random = SecureRandom.getInstance("SHA1PRNG");
 
-            generator.initialize (1024, random);
+            generator.initialize(1024, random);
 
             KeyPair pair = generator.generateKeyPair();
-            RSAPrivateKey priv = (RSAPrivateKey)pair.getPrivate();
-            RSAPublicKey pub = (RSAPublicKey)pair.getPublic();
+            RSAPrivateKey priv = (RSAPrivateKey) pair.getPrivate();
+            RSAPublicKey pub = (RSAPublicKey) pair.getPublic();
 
-            crearArchivoLLave("../Keys/privateKey.txt", priv.getEncoded());
-            crearArchivoLLave("../Keys/publicKey.txt", pub.getEncoded());
-            System.out.println("LLave privada generada correctamente");
-            System.out.println("LLave pública generada correctamente");
-
+            // Crear archivos de claves privada y pública
+            crearArchivoLLave("../LLave/LLavePrivada.txt", priv.getEncoded());
+            crearArchivoLLave("../LLave/LLavePublica.txt", pub.getEncoded());
+            System.out.println("Clave privada generada");
+            System.out.println("Clave pública generada");
         }
-
-
-
-
     }
 }
+
